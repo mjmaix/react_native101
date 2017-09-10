@@ -1,0 +1,26 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true,
+      "modules": true,
+      "experimentalObjectRestSpread": true
+    }
+  },
+  "plugins": [
+    "react"
+  ],
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "parser": "babel-eslint",
+  "rules": {
+    "react/prop-types" : 0, // redux actions conflict https://github.com/yannickcr/eslint-plugin-react/issues/553
+    "no-console": "warn"
+  }, //override rule here
+  "settings": {
+      "react": {
+        "pragma": "React",
+        "version": "15.4.2"
+      }
+  }
+}
