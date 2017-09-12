@@ -1,9 +1,10 @@
-import Expo from 'expo';
+import Expo, { Notifications } from 'expo';
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Alert } from 'react-native';
 import { TabNavigator, StackNavigator } from 'react-navigation';
 import { Provider } from 'react-redux';
 
+import registerForNotifications from './src/services/push_notifications';
 import store from './src/store';
 import AuthScreen from './src/screens/AuthScreen';
 import WelcomeScreen from './src/screens/WelcomeScreen';
@@ -13,11 +14,30 @@ import ReviewScreen from './src/screens/ReviewScreen';
 import SettingsScreen from './src/screens/SettingsScreen';
 
 export default class App extends React.Component {
+  componentDidMount() {
+    registerForNotifications();
+    Notifications.addListener((notification) => {
+      const { data: { text }, origin } = notification;
+
+      if (origin === 'received' && text) {
+        Alert.alert(
+          'New Push Notification',
+          text,
+          [ {text: 'Ok.'} ]
+        )
+      }
+    });
+  }
+
   render() {
     const tabNavOptions = {
         // https://github.com/react-community/react-navigation/issues/1805
         animationEnabled: false,
-        swipeEnabled: false
+        swipeEnabled: false,
+        tabBarOptions: {
+          labelSize: { fontSize: 12 }
+        },
+        // tabBarPosition: 'bottom'
     };
 
     const mainNavOptions = {
